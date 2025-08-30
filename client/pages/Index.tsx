@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Bell, Landmark } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { NavBar } from "@/components/site/NavBar";
 import { PetalField } from "@/components/site/PetalField";
 import { PrayerFlags } from "@/components/site/PrayerFlags";
 import { SectionDivider } from "@/components/site/SectionDivider";
@@ -10,7 +9,6 @@ import { MonasteryCard } from "@/components/site/MonasteryCard";
 import { MeditationTimer } from "@/components/site/MeditationTimer";
 import { GalleryGrid } from "@/components/site/GalleryGrid";
 import { ContactForm } from "@/components/site/ContactForm";
-import { Footer } from "@/components/site/Footer";
 
 export default function Index() {
   // Smooth mount fade
@@ -37,7 +35,6 @@ export default function Index() {
 
   return (
     <div className="relative">
-      <NavBar />
 
       {/* Hero */}
       <section id="hero" className="relative min-h-[92vh] flex items-center pt-20">
@@ -170,7 +167,7 @@ export default function Index() {
                 <div className="font-medium">End of Session</div>
               </div>
               <p className="mt-2 text-muted-foreground">
-                Upon completion, a soft bell chime will sound ��� gently guiding you back.
+                Upon completion, a soft bell chime will sound — gently guiding you back.
               </p>
             </div>
             <div className="rounded-2xl border bg-card/60 backdrop-blur p-6 italic text-[hsl(var(--stone))]">
@@ -180,7 +177,6 @@ export default function Index() {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 }
