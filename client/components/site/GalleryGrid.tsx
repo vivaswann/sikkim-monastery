@@ -1,10 +1,10 @@
-export function GalleryGrid({ images }: { images: { alt: string; query: string }[] }) {
+export function GalleryGrid({ images }: { images: { alt: string; query?: string; image?: string }[] }) {
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {images.map((img, i) => (
         <div key={i} className="group relative overflow-hidden rounded-xl border">
           <img
-            src={`https://source.unsplash.com/featured/900x700/?${encodeURIComponent(img.query)}`}
+            src={img.image || `https://source.unsplash.com/featured/900x700/?${encodeURIComponent(img.query || "")}`}
             alt={img.alt}
             className="h-64 w-full object-cover transition-transform duration-700 group-hover:scale-105"
             loading="lazy"
