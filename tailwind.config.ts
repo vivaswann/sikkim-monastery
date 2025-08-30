@@ -57,11 +57,20 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        saffron: "hsl(var(--saffron))",
+        maroon: "hsl(var(--maroon))",
+        indigo: "hsl(var(--indigo))",
+        forest: "hsl(var(--forest))",
+        stone: "hsl(var(--stone))",
+        gold: "hsl(var(--gold))",
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      boxShadow: {
+        glow: "0 0 0 1px hsl(var(--gold) / 0.4), 0 8px 24px -12px hsl(var(--gold) / 0.35)",
       },
       keyframes: {
         "accordion-down": {
@@ -80,10 +89,30 @@ export default {
             height: "0",
           },
         },
+        sway: {
+          "0%, 100%": { transform: "rotate(-2deg)" },
+          "50%": { transform: "rotate(2deg)" },
+        },
+        drift: {
+          "0%": { transform: "translateY(0) translateX(0) rotate(0deg)" },
+          "50%": { transform: "translateY(-20px) translateX(10px) rotate(10deg)" },
+          "100%": { transform: "translateY(0) translateX(0) rotate(0deg)" },
+        },
+        "petal-fall": {
+          "0%": { transform: "translateY(-10%) translateX(0) rotate(0)" },
+          "100%": { transform: "translateY(110%) translateX(30vw) rotate(45deg)" },
+        },
+        "spin-slower": {
+          to: { transform: "rotate(360deg)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        sway: "sway 6s ease-in-out infinite",
+        drift: "drift 8s ease-in-out infinite",
+        "petal-fall": "petal-fall 24s linear infinite",
+        "spin-slower": "spin-slower 40s linear infinite",
       },
     },
   },
