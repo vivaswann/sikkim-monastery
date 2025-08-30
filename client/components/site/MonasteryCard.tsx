@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-export function MonasteryCard({ name, query, href }: { name: string; query: string; href?: string }) {
+export function MonasteryCard({ name, query, href, overlayUrl }: { name: string; query: string; href?: string; overlayUrl?: string }) {
   const url = `https://source.unsplash.com/featured/800x600/?${encodeURIComponent(query)}`;
   return (
     <a href={href || "#"} className="group relative block overflow-hidden rounded-xl border">
@@ -10,9 +10,16 @@ export function MonasteryCard({ name, query, href }: { name: string; query: stri
         className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
         loading="lazy"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-70 group-hover:opacity-60 transition-opacity" />
+      {overlayUrl ? (
+        <div
+          className="absolute inset-0 transition-opacity bg-center bg-cover bg-no-repeat"
+          style={{ backgroundImage: `url(${overlayUrl})` }}
+        />
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-70 group-hover:opacity-60 transition-opacity" />
+      )}
       <div className="absolute bottom-3 left-3 text-white">
-        <div className="text-lg font-semibold drop-shadow">{name}</div>
+        <div className="text-lg font-semibold drop-shadow" style={{ textShadow: "1px 1px 3px rgba(0,0,0,1)" }}>{name}</div>
         <div className="mt-1 inline-flex items-center text-xs bg-black/40 px-2 py-1 rounded-full">360° Placeholder</div>
       </div>
       <div className="absolute inset-0 ring-1 ring-gold/30 rounded-xl shadow-glow opacity-0 group-hover:opacity-100 transition-opacity" />
