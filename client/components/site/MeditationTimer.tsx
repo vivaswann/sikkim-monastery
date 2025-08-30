@@ -1,8 +1,60 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
 
 const DURATIONS = [5, 10, 20, 30];
+
+type AmbientType = "drones" | "stream" | "chimes";
+
+function createAmbient(ctx: AudioContext, type: AmbientType, volume: number) {
+  const master = ctx.createGain();
+  master.gain.value = volume;
+  master.connect(ctx.destination);
+  let cleanup: (() => void) | null = null;
+
+  if (type === "drones") {
+    const g = ctx.createGain();
+    g.gain.value = 0.15;
+    g.connect(master);
+    const o1 = ctx.createOscillator();
+    const o2 = ctx.createOscillator();
+    o1.type = "sine"; o1.frequency.value = 110;
+    o2.type = "sine"; o2.frequency.value = 165;
+    const lfo = ctx.createOscillator();
+    const lfoGain = ctx.createGain();
+    lfo.frequency.value = 0.07; lfoGain.gain.value = 0.08;
+    lfo.connect(lfoGain).connect(g.gain);
+    o1.connect(g); o2.connect(g);
+    o1.start(); o2.start(); lfo.start();
+    cleanup = () => { o1.stop(); o2.stop(); lfo.stop(); };
+  } else if (type === "stream") {
+    const buffer = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * 0.6;
+    const source = ctx.createBufferSource();
+    source.buffer = buffer; source.loop = true;
+    const bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 600; bp.Q.value = 0.4;
+    const lpf = ctx.createBiquadFilter(); lpf.type = "lowpass"; lpf.frequency.value = 1200;
+    source.connect(bp).connect(lpf).connect(master);
+    source.start();
+    cleanup = () => source.stop();
+  } else if (type === "chimes") {
+    const group = ctx.createGain(); group.connect(master);
+    const interval = setInterval(() => {
+      const o = ctx.createOscillator(); const g = ctx.createGain();
+      o.type = "sine"; o.frequency.value = 880 + Math.random() * 440;
+      g.gain.setValueAtTime(0.0001, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.2, ctx.currentTime + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + (1.2 + Math.random() * 0.8));
+      o.connect(g).connect(group); o.start(); o.stop(ctx.currentTime + 2);
+    }, 2200);
+    cleanup = () => clearInterval(interval as any);
+  }
+
+  return { setVolume(v: number) { master.gain.value = v; }, stop() { cleanup?.(); master.disconnect(); } };
+}
 
 function useBell() {
   const ctxRef = useRef<AudioContext | null>(null);
@@ -78,14 +130,35 @@ export function MeditationTimer() {
   const bell = useBell();
   const intervalRef = useRef<number | null>(null);
 
+  // Ambient music state
+  const [ambientType, setAmbientType] = useState<AmbientType>("drones");
+  const [musicOn, setMusicOn] = useState(false);
+  const [volume, setVolume] = useState<number>(0.25);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const ambientRef = useRef<ReturnType<typeof createAmbient> | null>(null);
+
   const total = useMemo(() => minutes * 60, [minutes]);
   const progress = total > 0 ? 1 - remaining / total : 0;
 
   useEffect(() => {
     return () => {
       if (intervalRef.current) window.clearInterval(intervalRef.current);
+      ambientRef.current?.stop();
+      audioCtxRef.current?.close();
     };
   }, []);
+
+  useEffect(() => {
+    if (!musicOn) return;
+    const ctx = audioCtxRef.current || new (window.AudioContext || (window as any).webkitAudioContext)();
+    audioCtxRef.current = ctx;
+    ambientRef.current?.stop();
+    ambientRef.current = createAmbient(ctx, ambientType, volume);
+  }, [ambientType, musicOn]);
+
+  useEffect(() => {
+    ambientRef.current?.setVolume(volume);
+  }, [volume]);
 
   const start = () => {
     setRemaining(minutes * 60);
@@ -108,6 +181,8 @@ export function MeditationTimer() {
   const stop = () => {
     setRunning(false);
     if (intervalRef.current) window.clearInterval(intervalRef.current);
+    ambientRef.current?.stop();
+    setMusicOn(false);
   };
 
   const m = Math.floor(remaining / 60);
@@ -136,6 +211,42 @@ export function MeditationTimer() {
             </button>
           ))}
         </div>
+
+        {/* Music controls */}
+        <div className="rounded-xl border bg-card/60 backdrop-blur p-4 space-y-4">
+          <div className="flex flex-wrap items-center gap-3 justify-between">
+            <div className="font-medium">Background music</div>
+            <button
+              onClick={() => setMusicOn((v) => !v)}
+              className={cn(
+                "px-3 py-1.5 rounded-full border",
+                musicOn ? "bg-saffron text-neutral-900 border-saffron" : "hover:bg-accent/20"
+              )}
+              aria-pressed={musicOn}
+            >
+              {musicOn ? "On" : "Off"}
+            </button>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid gap-2">
+              <label className="text-sm text-muted-foreground">Soundscape</label>
+              <Select value={ambientType} onValueChange={(v) => setAmbientType(v as AmbientType)}>
+                <SelectTrigger className="w-full"><SelectValue placeholder="Choose" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="drones">Tibetan Bowls (drones)</SelectItem>
+                  <SelectItem value="stream">Mountain Stream</SelectItem>
+                  <SelectItem value="chimes">Wind & Chimes</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid gap-2">
+              <label className="text-sm text-muted-foreground">Volume</label>
+              <Slider value={[volume]} onValueChange={(v) => setVolume(v[0] ?? volume)} max={1} step={0.01} />
+            </div>
+          </div>
+          <p className="text-xs text-muted-foreground">Music stops automatically when you end the session.</p>
+        </div>
+
         <div className="flex items-center gap-3">
           {!running ? (
             <Button onClick={start} className="bg-saffron text-neutral-900 hover:bg-saffron/90">Begin Meditation</Button>
