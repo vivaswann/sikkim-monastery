@@ -1,7 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 
 const DURATIONS = [5, 10, 20, 30];
@@ -20,81 +26,150 @@ function createAmbient(ctx: AudioContext, type: AmbientType, volume: number) {
     g.connect(master);
     const o1 = ctx.createOscillator();
     const o2 = ctx.createOscillator();
-    o1.type = "sine"; o1.frequency.value = 110;
-    o2.type = "sine"; o2.frequency.value = 165;
+    o1.type = "sine";
+    o1.frequency.value = 110;
+    o2.type = "sine";
+    o2.frequency.value = 165;
     const lfo = ctx.createOscillator();
     const lfoGain = ctx.createGain();
-    lfo.frequency.value = 0.07; lfoGain.gain.value = 0.08;
+    lfo.frequency.value = 0.07;
+    lfoGain.gain.value = 0.08;
     lfo.connect(lfoGain).connect(g.gain);
-    o1.connect(g); o2.connect(g);
-    o1.start(); o2.start(); lfo.start();
-    cleanup = () => { o1.stop(); o2.stop(); lfo.stop(); };
+    o1.connect(g);
+    o2.connect(g);
+    o1.start();
+    o2.start();
+    lfo.start();
+    cleanup = () => {
+      o1.stop();
+      o2.stop();
+      lfo.stop();
+    };
   } else if (type === "nature") {
     const buffer = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
     const data = buffer.getChannelData(0);
-    for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * 0.6;
+    for (let i = 0; i < data.length; i++)
+      data[i] = (Math.random() * 2 - 1) * 0.6;
     const source = ctx.createBufferSource();
-    source.buffer = buffer; source.loop = true;
-    const bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 600; bp.Q.value = 0.4;
-    const lpf = ctx.createBiquadFilter(); lpf.type = "lowpass"; lpf.frequency.value = 1200;
+    source.buffer = buffer;
+    source.loop = true;
+    const bp = ctx.createBiquadFilter();
+    bp.type = "bandpass";
+    bp.frequency.value = 600;
+    bp.Q.value = 0.4;
+    const lpf = ctx.createBiquadFilter();
+    lpf.type = "lowpass";
+    lpf.frequency.value = 1200;
     source.connect(bp).connect(lpf).connect(master);
     source.start();
     cleanup = () => source.stop();
   } else if (type === "mantra") {
-    const group = ctx.createGain(); group.connect(master);
+    const group = ctx.createGain();
+    group.connect(master);
     group.gain.value = 0.18;
     const interval = setInterval(() => {
       const base = 220 + Math.random() * 30; // slow chant
       const o = ctx.createOscillator();
       const oH = ctx.createOscillator();
       const g = ctx.createGain();
-      o.type = "sine"; o.frequency.value = base;
-      oH.type = "sine"; oH.frequency.value = base * 2;
+      o.type = "sine";
+      o.frequency.value = base;
+      oH.type = "sine";
+      oH.frequency.value = base * 2;
       g.gain.setValueAtTime(0.0001, ctx.currentTime);
       g.gain.exponentialRampToValueAtTime(0.25, ctx.currentTime + 0.15);
       g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.8);
-      o.connect(g); oH.connect(g); g.connect(group);
-      o.start(); oH.start();
-      o.stop(ctx.currentTime + 2.2); oH.stop(ctx.currentTime + 2.2);
+      o.connect(g);
+      oH.connect(g);
+      g.connect(group);
+      o.start();
+      oH.start();
+      o.stop(ctx.currentTime + 2.2);
+      oH.stop(ctx.currentTime + 2.2);
     }, 2400);
     cleanup = () => clearInterval(interval as any);
   }
 
-  return { setVolume(v: number) { master.gain.value = v; }, stop() { cleanup?.(); master.disconnect(); } };
+  return {
+    setVolume(v: number) {
+      master.gain.value = v;
+    },
+    stop() {
+      cleanup?.();
+      master.disconnect();
+    },
+  };
 }
 
 function useBell() {
   const ctxRef = useRef<AudioContext | null>(null);
-  useEffect(() => { return () => ctxRef.current?.close(); }, []);
+  useEffect(() => {
+    return () => ctxRef.current?.close();
+  }, []);
   return () => {
-    const ctx = ctxRef.current || new (window.AudioContext || (window as any).webkitAudioContext)();
+    const ctx =
+      ctxRef.current ||
+      new (window.AudioContext || (window as any).webkitAudioContext)();
     ctxRef.current = ctx;
     const t0 = ctx.currentTime;
-    const o = ctx.createOscillator(); const g = ctx.createGain();
-    const o2 = ctx.createOscillator(); const g2 = ctx.createGain();
-    o.type = "sine"; o.frequency.setValueAtTime(660, t0);
-    g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(0.4, t0 + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t0 + 2.2);
-    o2.type = "sine"; o2.frequency.setValueAtTime(990, t0);
-    g2.gain.setValueAtTime(0.0001, t0); g2.gain.exponentialRampToValueAtTime(0.25, t0 + 0.015); g2.gain.exponentialRampToValueAtTime(0.0001, t0 + 1.8);
-    o.connect(g).connect(ctx.destination); o2.connect(g2).connect(ctx.destination);
-    o.start(); o2.start(); o.stop(t0 + 2.4); o2.stop(t0 + 2.0);
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    const o2 = ctx.createOscillator();
+    const g2 = ctx.createGain();
+    o.type = "sine";
+    o.frequency.setValueAtTime(660, t0);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(0.4, t0 + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + 2.2);
+    o2.type = "sine";
+    o2.frequency.setValueAtTime(990, t0);
+    g2.gain.setValueAtTime(0.0001, t0);
+    g2.gain.exponentialRampToValueAtTime(0.25, t0 + 0.015);
+    g2.gain.exponentialRampToValueAtTime(0.0001, t0 + 1.8);
+    o.connect(g).connect(ctx.destination);
+    o2.connect(g2).connect(ctx.destination);
+    o.start();
+    o2.start();
+    o.stop(t0 + 2.4);
+    o2.stop(t0 + 2.0);
   };
 }
 
 function DharmaWheel({ spinning }: { spinning: boolean }) {
   return (
-    <div className={cn("relative mx-auto", spinning && "animate-spin-slower")} style={{ width: 160, height: 160 }} aria-label="Dharma wheel">
+    <div
+      className={cn("relative mx-auto", spinning && "animate-spin-slower")}
+      style={{ width: 160, height: 160 }}
+      aria-label="Dharma wheel"
+    >
       <svg viewBox="0 0 100 100" width="160" height="160">
-        <circle cx="50" cy="50" r="36" fill="none" stroke="hsl(var(--gold))" strokeWidth="3" />
+        <circle
+          cx="50"
+          cy="50"
+          r="36"
+          fill="none"
+          stroke="hsl(var(--gold))"
+          strokeWidth="3"
+        />
         <circle cx="50" cy="50" r="6" fill="hsl(var(--gold))" />
         {[...Array(8)].map((_, i) => {
           const angle = (i * Math.PI) / 4;
-          const x1 = 50 + Math.cos(angle) * 6; const y1 = 50 + Math.sin(angle) * 6;
-          const x2 = 50 + Math.cos(angle) * 36; const y2 = 50 + Math.sin(angle) * 36;
-          const sx = 50 + Math.cos(angle) * 46; const sy = 50 + Math.sin(angle) * 46;
+          const x1 = 50 + Math.cos(angle) * 6;
+          const y1 = 50 + Math.sin(angle) * 6;
+          const x2 = 50 + Math.cos(angle) * 36;
+          const y2 = 50 + Math.sin(angle) * 36;
+          const sx = 50 + Math.cos(angle) * 46;
+          const sy = 50 + Math.sin(angle) * 46;
           return (
             <g key={i}>
-              <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="hsl(var(--gold))" strokeWidth="2" />
+              <line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke="hsl(var(--gold))"
+                strokeWidth="2"
+              />
               <circle cx={sx} cy={sy} r="4" fill="hsl(var(--gold))" />
             </g>
           );
@@ -132,7 +207,9 @@ export function MeditationTimer() {
   // Start or change ambient when toggled on / type changes
   useEffect(() => {
     if (!musicOn) return; // when off, separate effect handles stop
-    const ctx = audioCtxRef.current || new (window.AudioContext || (window as any).webkitAudioContext)();
+    const ctx =
+      audioCtxRef.current ||
+      new (window.AudioContext || (window as any).webkitAudioContext)();
     audioCtxRef.current = ctx;
     ambientRef.current?.stop();
     ambientRef.current = createAmbient(ctx, ambientType, volume);
@@ -184,8 +261,8 @@ export function MeditationTimer() {
       <div className="space-y-6">
         <h3 className="text-2xl font-semibold">Meditation Space</h3>
         <p className="text-muted-foreground">
-          Rest the mind upon the breath. When ready, begin your session and let the Dharma
-          Wheel turn gently.
+          Rest the mind upon the breath. When ready, begin your session and let
+          the Dharma Wheel turn gently.
         </p>
         <div className="flex flex-wrap gap-2">
           {DURATIONS.map((d) => (
@@ -194,7 +271,9 @@ export function MeditationTimer() {
               onClick={() => setMinutes(d)}
               className={cn(
                 "px-4 py-2 rounded-full border",
-                minutes === d ? "bg-saffron text-neutral-900 border-saffron" : "hover:bg-accent/20"
+                minutes === d
+                  ? "bg-saffron text-neutral-900 border-saffron"
+                  : "hover:bg-accent/20",
               )}
               aria-pressed={minutes === d}
             >
@@ -211,7 +290,9 @@ export function MeditationTimer() {
               onClick={() => setMusicOn((v) => !v)}
               className={cn(
                 "px-3 py-1.5 rounded-full border",
-                musicOn ? "bg-saffron text-neutral-900 border-saffron" : "hover:bg-accent/20"
+                musicOn
+                  ? "bg-saffron text-neutral-900 border-saffron"
+                  : "hover:bg-accent/20",
               )}
               aria-pressed={musicOn}
             >
@@ -220,35 +301,66 @@ export function MeditationTimer() {
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="grid gap-2">
-              <label className="text-sm text-muted-foreground">Soundscape</label>
-              <Select value={ambientType} onValueChange={(v) => setAmbientType(v as AmbientType)}>
-                <SelectTrigger className="w-full"><SelectValue placeholder="Choose" /></SelectTrigger>
+              <label className="text-sm text-muted-foreground">
+                Soundscape
+              </label>
+              <Select
+                value={ambientType}
+                onValueChange={(v) => setAmbientType(v as AmbientType)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Choose" />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="bowls">Tibetan Bowls</SelectItem>
-                  <SelectItem value="mantra">Slow Buddhist Mantra Chants</SelectItem>
+                  <SelectItem value="mantra">
+                    Slow Buddhist Mantra Chants
+                  </SelectItem>
                   <SelectItem value="nature">Soothing Nature Sound</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="grid gap-2">
               <label className="text-sm text-muted-foreground">Volume</label>
-              <Slider value={[volume]} onValueChange={(v) => setVolume(v[0] ?? volume)} max={1} step={0.01} />
+              <Slider
+                value={[volume]}
+                onValueChange={(v) => setVolume(v[0] ?? volume)}
+                max={1}
+                step={0.01}
+              />
             </div>
           </div>
-          <p className="text-xs text-muted-foreground">Music stops automatically when you end the session.</p>
+          <p className="text-xs text-muted-foreground">
+            Music stops automatically when you end the session.
+          </p>
         </div>
 
         <div className="flex items-center gap-3">
           {!running ? (
-            <Button onClick={start} className="bg-saffron text-neutral-900 hover:bg-saffron/90">Begin Meditation</Button>
+            <Button
+              onClick={start}
+              className="bg-saffron text-neutral-900 hover:bg-saffron/90"
+            >
+              Begin Meditation
+            </Button>
           ) : (
-            <Button onClick={stop} variant="secondary" className="bg-maroon hover:bg-maroon/90">
+            <Button
+              onClick={stop}
+              variant="secondary"
+              className="bg-maroon hover:bg-maroon/90"
+            >
               End Session
             </Button>
           )}
-          <div className="text-sm text-muted-foreground">{remaining > 0 ? `${m}:${s.toString().padStart(2, "0")}` : `${minutes}:00`}</div>
+          <div className="text-sm text-muted-foreground">
+            {remaining > 0
+              ? `${m}:${s.toString().padStart(2, "0")}`
+              : `${minutes}:00`}
+          </div>
         </div>
-        <p className="italic text-sm text-stone">“Breathe in the Himalayas, breathe out peace.”</p>
+        <p className="italic text-sm text-stone">
+          “Breathe in the Himalayas, breathe out peace.”
+        </p>
       </div>
       <div className="relative">
         <div className="absolute inset-x-0 -top-6 h-6 bg-gradient-to-b from-gold/20 to-transparent blur-xl" />
@@ -257,7 +369,10 @@ export function MeditationTimer() {
             <DharmaWheel spinning={running} />
           </div>
           <div className="mt-6 w-full bg-muted rounded-full h-2 overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-saffron to-gold" style={{ width: `${progress * 100}%` }} />
+            <div
+              className="h-full bg-gradient-to-r from-saffron to-gold"
+              style={{ width: `${progress * 100}%` }}
+            />
           </div>
         </div>
       </div>
