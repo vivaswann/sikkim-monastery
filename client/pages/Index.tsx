@@ -135,7 +135,7 @@ export default function Index() {
         </div>
       </section>
 
-      <SectionDivider image="https://cdn.builder.io/api/v1/image/assets%2F83fe13fcff68445dafe105ce571cf6cb%2F00c1b11c0bec48cfb8a4a018e58ee046?format=webp" />
+      <SectionDivider image="https://cdn.builder.io/api/v1/image/assets%2F83fe13fcff68445dafe105ce571cf6cb%2Fc70da5698cbe495abb42a87b7033abcc" />
 
       {/* Sacred Gallery */}
       <section id="gallery" className="py-16" style={{ backgroundColor: "rgba(176,132,6,0.22)" }}>
