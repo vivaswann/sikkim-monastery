@@ -8,6 +8,13 @@
 
   <body>
     <div id="root"></div>
+    <!-- netlify form registration (hidden) -->
+<form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name" />
+  <input type="email" name="email" />
+  <textarea name="message"></textarea>
+</form>
+
 
     <script type="module" src="/client/App.tsx"></script>
   </body>

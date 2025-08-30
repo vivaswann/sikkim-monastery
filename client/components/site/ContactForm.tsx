@@ -18,7 +18,14 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-4">
+    <form 
+  name="contact"
+  method="POST"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  className="grid gap-4"
+>
+  <input type="hidden" name="form-name" value="contact" />
       <div className="grid md:grid-cols-2 gap-4">
         <div className="grid gap-2">
           <Label htmlFor="name">Name</Label>
