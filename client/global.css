@@ -1,5 +1,5 @@
 /** @import must precede all other statements */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -12,98 +12,112 @@
    * A different format will require also updating the theme in tailwind.config.ts.
   */
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Sanctuary palette */
+    --saffron: 40 85% 50%; /* saffron gold */
+    --maroon: 350 66% 26%; /* deep maroon */
+    --indigo: 230 45% 40%; /* indigo */
+    --forest: 135 28% 30%; /* forest green */
+    --stone: 220 12% 46%; /* stone grey */
+    --gold: 44 85% 52%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Base surface tokens (light / parchment) */
+    --background: 42 33% 96%;
+    --foreground: 24 32% 15%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --card: 42 33% 98%;
+    --card-foreground: 24 32% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --popover: 42 33% 98%;
+    --popover-foreground: 24 32% 15%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --primary: var(--saffron);
+    --primary-foreground: 50 100% 96%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --secondary: var(--maroon);
+    --secondary-foreground: 44 100% 94%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --muted: 42 20% 92%;
+    --muted-foreground: 24 16% 34%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --accent: var(--indigo);
+    --accent-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --destructive: 0 70% 40%;
+    --destructive-foreground: 0 0% 98%;
 
-    --radius: 0.5rem;
+    --border: 35 20% 85%;
+    --input: 35 20% 85%;
+    --ring: var(--saffron);
 
-    --sidebar-background: 0 0% 98%;
+    --radius: 0.75rem;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 42 33% 96%;
+    --sidebar-foreground: 24 32% 15%;
+    --sidebar-primary: var(--maroon);
+    --sidebar-primary-foreground: 44 100% 94%;
+    --sidebar-accent: 42 20% 92%;
+    --sidebar-accent-foreground: 24 32% 15%;
+    --sidebar-border: 35 20% 85%;
+    --sidebar-ring: var(--saffron);
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Deep twilight sanctuary */
+    --background: 230 25% 10%;
+    --foreground: 44 100% 94%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 230 25% 12%;
+    --card-foreground: 44 100% 94%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 230 25% 12%;
+    --popover-foreground: 44 100% 94%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: var(--saffron);
+    --primary-foreground: 50 100% 96%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: var(--maroon);
+    --secondary-foreground: 44 100% 94%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 230 20% 18%;
+    --muted-foreground: 44 24% 76%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 230 45% 48%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 230 18% 22%;
+    --input: 230 18% 22%;
+    --ring: var(--saffron);
+
+    --sidebar-background: 230 25% 10%;
+    --sidebar-foreground: 44 100% 94%;
+    --sidebar-primary: var(--maroon);
+    --sidebar-primary-foreground: 44 100% 94%;
+    --sidebar-accent: 230 20% 18%;
+    --sidebar-accent-foreground: 44 100% 94%;
+    --sidebar-border: 230 18% 22%;
+    --sidebar-ring: var(--saffron);
   }
 }
 
 @layer base {
+  html { scroll-behavior: smooth; }
+
   * {
     @apply border-border;
   }
 
   body {
     @apply bg-background text-foreground;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    background-image:
+      radial-gradient(1200px 600px at 10% -10%, hsl(var(--gold) / 0.08), transparent 60%),
+      radial-gradient(800px 400px at 90% -20%, hsl(var(--indigo) / 0.10), transparent 60%),
+      linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--background)) 100%);
+    background-attachment: fixed;
   }
+
+  h1,h2,h3,h4 { font-family: "Playfair Display", serif; }
 }
