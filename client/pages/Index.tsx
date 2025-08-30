@@ -37,7 +37,7 @@ export default function Index() {
     <div className="relative">
 
       {/* Hero */}
-      <section id="hero" className="relative min-h-[92vh] flex items-center pt-20">
+      <section id="hero" className="relative min-h-[788px] flex items-center pt-20" style={{ color: "rgba(110,69,29,1)", backgroundColor: "rgba(176,132,6,0.22)", backgroundRepeat: "no-repeat", backgroundPosition: "center", backgroundSize: "cover" }}>
         <div className="absolute inset-0 -z-10">
           <img
             src="https://source.unsplash.com/1600x1000/?Sikkim,monastery,Himalayas"
@@ -73,15 +73,15 @@ export default function Index() {
                 </Button>
               </a>
             </div>
-            <div className="mt-10 text-gold italic text-lg">“In the silence of the mountains, wisdom speaks.”</div>
+            <div className="mt-10 italic text-lg" style={{ color: "rgba(68,58,42,1)" }}>“In the silence of the mountains, wisdom speaks.”</div>
           </motion.div>
         </div>
       </section>
 
-      <SectionDivider />
+      <SectionDivider image="https://cdn.builder.io/api/v1/image/assets%2F83fe13fcff68445dafe105ce571cf6cb%2F97556c7877e14002983e5f85174d1cf0" />
 
       {/* About */}
-      <section id="about" className="py-14">
+      <section id="about" className="py-14" style={{ backgroundColor: "rgba(176,132,6,0.22)" }}>
         <div className="container mx-auto grid lg:grid-cols-3 gap-8 items-start">
           <div className="lg:col-span-3 max-w-3xl">
             <h2 className="text-3xl md:text-4xl font-semibold">Heritage and Spirit</h2>
@@ -107,10 +107,10 @@ export default function Index() {
         </div>
       </section>
 
-      <SectionDivider />
+      <SectionDivider image="https://cdn.builder.io/api/v1/image/assets%2F83fe13fcff68445dafe105ce571cf6cb%2F40a87c7ac526413282fb43078cde159c" />
 
       {/* Virtual Sanctuary */}
-      <section id="sanctuary" className="py-16">
+      <section id="sanctuary" className="py-16" style={{ backgroundColor: "rgba(176,132,6,0.22)" }}>
         <div className="container mx-auto">
           <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
             <h2 className="text-3xl md:text-4xl font-semibold flex items-center gap-2">
@@ -126,29 +126,29 @@ export default function Index() {
         </div>
       </section>
 
-      <SectionDivider />
+      <SectionDivider image="https://cdn.builder.io/api/v1/image/assets%2F83fe13fcff68445dafe105ce571cf6cb%2F85ce55e604d94e8abe8a5b7d1044a742" />
 
       {/* Meditation */}
-      <section id="meditation" className="py-16">
+      <section id="meditation" className="py-16" style={{ backgroundColor: "rgba(176,132,6,0.22)" }}>
         <div className="container mx-auto">
           <MeditationTimer />
         </div>
       </section>
 
-      <SectionDivider />
+      <SectionDivider image="https://cdn.builder.io/api/v1/image/assets%2F83fe13fcff68445dafe105ce571cf6cb%2F00c1b11c0bec48cfb8a4a018e58ee046?format=webp" />
 
       {/* Sacred Gallery */}
-      <section id="gallery" className="py-16">
+      <section id="gallery" className="py-16" style={{ backgroundColor: "rgba(176,132,6,0.22)" }}>
         <div className="container mx-auto">
           <h2 className="text-3xl md:text-4xl font-semibold mb-6">Sacred Gallery</h2>
           <GalleryGrid images={galleryImages} />
         </div>
       </section>
 
-      <SectionDivider />
+      <SectionDivider image="https://cdn.builder.io/api/v1/image/assets%2F83fe13fcff68445dafe105ce571cf6cb%2F42524de79cb542b5a0664fd583d4221c" />
 
       {/* Contact & Blessing */}
-      <section id="contact" className="py-16">
+      <section id="contact" className="py-16" style={{ backgroundColor: "rgba(176,132,6,0.22)" }}>
         <div className="container mx-auto grid md:grid-cols-2 gap-10">
           <div>
             <h2 className="text-3xl md:text-4xl font-semibold">Contact & Blessing</h2>
