@@ -16,12 +16,12 @@ export default function Index() {
   useEffect(() => setMounted(true), []);
 
   const monasteries = [
-    { name: "Rumtek", query: "Rumtek Monastery Sikkim Himalayas" },
-    { name: "Enchey", query: "Enchey Monastery Sikkim" },
-    { name: "Pemayangtse", query: "Pemayangtse Monastery Sikkim" },
-    { name: "Tashiding", query: "Tashiding Monastery Sikkim" },
-    { name: "Ralang", query: "Ralang Monastery Sikkim" },
-    { name: "Phodong", query: "Phodong Monastery Sikkim" },
+    { name: "Rumtek", query: "Rumtek Monastery Sikkim Himalayas", overlayUrl: "https://cdn.builder.io/api/v1/image/assets%2F83fe13fcff68445dafe105ce571cf6cb%2F02cafdaac1244252a5ba35e4f9e2ae36" },
+    { name: "Enchey", query: "Enchey Monastery Sikkim", overlayUrl: "https://cdn.builder.io/api/v1/image/assets%2F83fe13fcff68445dafe105ce571cf6cb%2Fb4b260ec413746979c0df515d3f45529" },
+    { name: "Pemayangtse", query: "Pemayangtse Monastery Sikkim", overlayUrl: "https://cdn.builder.io/api/v1/image/assets%2F83fe13fcff68445dafe105ce571cf6cb%2F074f913ecba24c4eb09eb1f66f6eb288" },
+    { name: "Tashiding", query: "Tashiding Monastery Sikkim", overlayUrl: "https://cdn.builder.io/api/v1/image/assets%2F83fe13fcff68445dafe105ce571cf6cb%2Ff1036b59811f468fac9ed9b84eed858f" },
+    { name: "Ralang", query: "Ralang Monastery Sikkim", overlayUrl: "https://cdn.builder.io/api/v1/image/assets%2F83fe13fcff68445dafe105ce571cf6cb%2Fe801dc6f8ae6469c9446e38dec95ebde" },
+    { name: "Phodong", query: "Phodong Monastery Sikkim", overlayUrl: "https://cdn.builder.io/api/v1/image/assets%2F83fe13fcff68445dafe105ce571cf6cb%2Fe52382f611da4bc6b1b57e28b5ac4f70" },
   ];
 
   const galleryImages = [
@@ -55,20 +55,20 @@ export default function Index() {
             transition={{ duration: 0.8 }}
             className="max-w-3xl text-white"
           >
-            <h1 className="text-4xl md:text-6xl font-semibold leading-tight">
+            <h1 className="text-4xl md:text-6xl font-semibold leading-tight text-black">
               Virtual Journey through the Monasteries of Sikkim
             </h1>
-            <p className="mt-4 text-lg md:text-xl text-white/90">
+            <p className="mt-4 text-lg md:text-xl text-[rgba(95,80,80,0.9)]">
               Experience the sacred sanctuaries digitally — prayer wheels, thangkas, stupas, and chants.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href="#meditation">
+              <a href="https://ecd2f6131a4e45c384c0d6ec6e94558f-24295ca6b62d41a7b807ca8fd.fly.dev/?reload=1756540196779#meditation">
                 <Button size="lg" className="bg-saffron text-neutral-900 hover:bg-saffron/90">
                   Begin Meditation
                 </Button>
               </a>
-              <a href="#sanctuary">
-                <Button size="lg" variant="outline" className="border-gold/60 text-white hover:bg-white/10">
+              <a href="https://ecd2f6131a4e45c384c0d6ec6e94558f-24295ca6b62d41a7b807ca8fd.fly.dev/?reload=1756540196779#sanctuary">
+                <Button size="lg" className="bg-black text-white border border-gold/60 hover:bg-black">
                   Explore Monasteries
                 </Button>
               </a>
@@ -120,7 +120,7 @@ export default function Index() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {monasteries.map((m) => (
-              <MonasteryCard key={m.name} name={m.name} query={m.query} />
+              <MonasteryCard key={m.name} name={m.name} query={m.query} overlayUrl={(m as any).overlayUrl} />
             ))}
           </div>
         </div>
