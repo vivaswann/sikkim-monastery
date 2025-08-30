@@ -25,12 +25,12 @@ export default function Index() {
   ];
 
   const galleryImages = [
-    { alt: "Prayer wheels", query: "Sikkim prayer wheels monastery" },
-    { alt: "Chanting monks", query: "Sikkim monks chanting" },
-    { alt: "Thangka art", query: "Thangka murals Buddhist art" },
-    { alt: "Stupa", query: "Sikkim stupa chorten" },
-    { alt: "Himalayan view", query: "Himalayas Sikkim mountains" },
-    { alt: "Monastery murals", query: "monastery murals Sikkim" },
+    { alt: "Prayer wheels", image: "https://cdn.builder.io/api/v1/image/assets%2F83fe13fcff68445dafe105ce571cf6cb%2F58b40cfabe704e5aade257ac8b51fa65" },
+    { alt: "Chanting monks", image: "https://cdn.builder.io/api/v1/image/assets%2F83fe13fcff68445dafe105ce571cf6cb%2F9c5f202d49894d828be3636caacb0d9c?format=webp" },
+    { alt: "Thangka art", image: "https://cdn.builder.io/api/v1/image/assets%2F83fe13fcff68445dafe105ce571cf6cb%2Ff1d39cb021dd431ab185662b241b5d33?format=webp" },
+    { alt: "Stupa", image: "https://cdn.builder.io/o/assets%2F83fe13fcff68445dafe105ce571cf6cb%2F91e86f07e1cd4590ad208fbac30fa03b?alt=media&token=14ec6079-1a94-4b8f-8d04-e2777f667a5a&apiKey=83fe13fcff68445dafe105ce571cf6cb" },
+    { alt: "Himalayan view", image: "https://cdn.builder.io/api/v1/image/assets%2F83fe13fcff68445dafe105ce571cf6cb%2F9bc12e1feda44a9aa37b29dfb4e7afd1" },
+    { alt: "Monastery murals", image: "https://cdn.builder.io/api/v1/image/assets%2F83fe13fcff68445dafe105ce571cf6cb%2F2cc34870ea1a49f88ede90069ea687a2" },
   ];
 
   return (
