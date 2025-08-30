@@ -158,7 +158,7 @@ export default function Index() {
             <p className="mt-3 text-muted-foreground">
               Om Mani Padme Hum — May the people of Sikkim and all beings be happy.
             </p>
-            <div className="mt-4 text-sm text-stone">Location: Virtual Sanctuary inspired by Rumtek Monastery, Sikkim.</div>
+            <div className="mt-4 text-sm text-[hsl(var(--stone))]">Location: Virtual Sanctuary inspired by Rumtek Monastery, Sikkim.</div>
             <div className="mt-6 rounded-2xl border bg-card/60 backdrop-blur p-6">
               <ContactForm />
             </div>
@@ -170,10 +170,10 @@ export default function Index() {
                 <div className="font-medium">End of Session</div>
               </div>
               <p className="mt-2 text-muted-foreground">
-                Upon completion, a soft bell chime will sound — gently guiding you back.
+                Upon completion, a soft bell chime will sound ��� gently guiding you back.
               </p>
             </div>
-            <div className="rounded-2xl border bg-card/60 backdrop-blur p-6 italic text-stone">
+            <div className="rounded-2xl border bg-card/60 backdrop-blur p-6 italic text-[hsl(var(--stone))]">
               “May you be well; may you be at peace.”
             </div>
           </div>
